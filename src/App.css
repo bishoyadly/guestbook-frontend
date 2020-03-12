@@ -1,5 +1,12 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: -webkit-linear-gradient(left, #0072ff, #00c6ff);
 }
 
 .App-logo {

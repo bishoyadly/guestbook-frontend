@@ -1,0 +1,42 @@
+.loginContainer {
+  width: 500px;
+  height: 550px;
+  background: white;
+  border-radius: 50px;
+  padding: 30px;
+  margin-left: 50px;
+
+  label {
+    font-size: 20px;
+  }
+}
+
+.signInHeader {
+  font-size: 50px;
+  font-style: oblique;
+}
+
+.loginForm {
+  margin-left: 35px;
+}
+
+.inputField {
+  font-size: 25px;
+  margin: 10px 0;
+
+  input {
+    font-size: 25px;
+  }
+}
+
+.submitButton {
+  width: 300px;
+  font-size: 25px;
+  height: 50px;
+}
+
+.signUpLink {
+  font-size: 25px;
+  border-bottom: 2px solid;
+  margin-right: 30px;
+}
