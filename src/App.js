@@ -5,9 +5,9 @@ import Login from "./components/Login/Login";
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
 } from "react-router-dom";
+import SignUp from "./components/Signup/Signup";
 
 function App() {
     return (
@@ -19,6 +19,9 @@ function App() {
                     </Route>
                     <Route exact path='/'>
                         <Login/>
+                    </Route>
+                    <Route path='/signup'>
+                        <SignUp/>
                     </Route>
                     <Route>
                         <h1 style={{

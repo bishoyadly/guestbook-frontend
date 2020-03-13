@@ -1,14 +1,14 @@
 import React from "react";
-import loginStyles from './Login.module.scss';
+import signUpStyles from './Signup.module.scss';
 import {Form, Input, Button} from "antd";
 import {Link} from "react-router-dom";
 
 const layout = {
     labelCol: {
-        span: 0,
+        span: 4,
     },
     wrapperCol: {
-        span: 20,
+        span: 10,
     },
 };
 const tailLayout = {
@@ -18,7 +18,7 @@ const tailLayout = {
     },
 };
 
-export default function Login() {
+export default function SignUp() {
 
     const onFinish = values => {
         console.log('Success:', values);
@@ -29,12 +29,12 @@ export default function Login() {
     };
 
     return (
-        <div className={loginStyles.loginContainer}>
-            <h1 className={loginStyles.signInHeader}> Sign in </h1>
+        <div className={signUpStyles.loginContainer}>
+            <h1 className={signUpStyles.signInHeader}> Create New Account </h1>
 
             <Form
                 {...layout}
-                className={loginStyles.loginForm}
+                className={signUpStyles.loginForm}
                 name="basic"
                 initialValues={{
                     remember: true,
@@ -42,6 +42,40 @@ export default function Login() {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
+
+                <Form.Item
+                    label="First Name"
+                    name="firstName"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your first name!',
+                        },
+                    ]}
+                >
+                    <Input
+                        placeholder={'First Name'}
+                        className={signUpStyles.inputField}
+                    />
+                </Form.Item>
+
+
+                <Form.Item
+                    label="Last Name"
+                    name="lastName"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your last name!',
+                        },
+                    ]}
+                >
+                    <Input
+                        placeholder={'Last Name'}
+                        className={signUpStyles.inputField}
+                    />
+                </Form.Item>
+
                 <Form.Item
                     label="Email address"
                     name="userEmail"
@@ -54,7 +88,7 @@ export default function Login() {
                 >
                     <Input
                         placeholder={'Email Address'}
-                        className={loginStyles.inputField}
+                        className={signUpStyles.inputField}
                     />
                 </Form.Item>
 
@@ -70,26 +104,26 @@ export default function Login() {
                 >
                     <Input.Password
                         placeholder={'Password'}
-                        className={loginStyles.inputField}
+                        className={signUpStyles.inputField}
                     />
                 </Form.Item>
 
                 <Form.Item {...tailLayout}>
                     <Button
-                        className={loginStyles.submitButton}
+                        className={signUpStyles.submitButton}
                         type="primary"
                         htmlType="submit"
                     >
-                        Login
+                        Submit
                     </Button>
                 </Form.Item>
             </Form>
 
             <Link
-                className={loginStyles.signUpLink}
-                to={'/signup'}
+                className={signUpStyles.logInLink}
+                to={'/login'}
             >
-                Sign up
+                Login
             </Link>
         </div>
     );
