@@ -1,0 +1,19 @@
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+  input, button {
+    font-size: 20px;
+    color: black;
+  }
+
+  button {
+    height: 41px;
+  }
+
+}
+
+.replyMessages {
+  margin-top: 10px;
+  font-size: 18px;
+}

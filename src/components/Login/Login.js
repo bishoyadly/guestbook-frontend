@@ -1,7 +1,7 @@
 import React from "react";
 import loginStyles from './Login.module.scss';
 import {Form, Input, Button} from "antd";
-import {Link} from "react-router-dom";
+import {Link, useHistory, useLocation} from "react-router-dom";
 
 const layout = {
     labelCol: {
@@ -18,10 +18,21 @@ const tailLayout = {
     },
 };
 
-export default function Login() {
+export default function Login({AuthObj}) {
+
+    const history = useHistory();
+    const location = useLocation();
+    const {from} = location.state || {from: {pathname: "/guestBook"}};
+
+    const login = () => {
+        AuthObj.authenticate(() => {
+            history.replace(from);
+        });
+    };
 
     const onFinish = values => {
         console.log('Success:', values);
+        login();
     };
 
     const onFinishFailed = errorInfo => {
