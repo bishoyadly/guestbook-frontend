@@ -1,32 +1,38 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Button, Input, List, Modal, Typography} from "antd";
 import messageListStyles from './MessageList.module.scss';
 import {CloseCircleOutlined, EditOutlined, PlusCircleOutlined} from "@ant-design/icons";
+import {deleteMessage, getMessages, updateMessage} from "../../apis/apis";
+import {message} from "antd";
 
+export default function MessageList({addMessageModalVisibility}) {
 
-const data = [
-    {
-        messageText: 'Racing car sprays burning fuel into crowd.',
-        replyMessages: ['reply 1', 'reply 2']
-    },
-    {
-        messageText: 'Racing car sprays burning fuel into crowd.',
-        replyMessages: ['reply 1', 'reply 2']
-    }
-];
-
-
-export default function MessageList() {
-
+    const [messageList, setMessageList] = useState([]);
     const [replyModalVisibility, setReplyModalVisibility] = useState(false);
     const [replyModalLoading, setReplyModalLoading] = useState(false);
+    const [replyMessageText, setReplyMessageText] = useState('');
+    const [messageText, setMessageText] = useState('');
+    const [currentMessageObj, setCurrentMessageObj] = useState({});
+    const [listChange, setListChange] = useState(false);
+
+    useEffect(() => {
+        getMessages().then(response => {
+            setMessageList(response.data);
+        })
+    }, [replyModalVisibility, addMessageModalVisibility, listChange]);
 
     function onAddReplyMessageOK() {
         setReplyModalLoading(true);
-        setTimeout(() => {
-            setReplyModalVisibility(false);
-            setReplyModalLoading(false);
-        }, 2000);
+        currentMessageObj.replyMessages.push(replyMessageText);
+        updateMessage(currentMessageObj)
+            .then(() => {
+                setReplyModalVisibility(false);
+                setReplyModalLoading(false);
+            })
+            .catch(() => {
+                setReplyModalVisibility(false);
+                setReplyModalLoading(false);
+            });
     }
 
     function showReplyModal() {
@@ -37,7 +43,7 @@ export default function MessageList() {
         setReplyModalVisibility(false);
     }
 
-    function replyMessageModal(messageObj) {
+    function replyMessageModal() {
         return (
             <div>
                 <Modal
@@ -47,7 +53,10 @@ export default function MessageList() {
                     confirmLoading={replyModalLoading}
                     onCancel={handleReplyModalCancel}
                 >
-                    <Input placeholder={'reply message'}/>
+                    <Input
+                        onChange={(event) => setReplyMessageText(event.target.value)}
+                        placeholder={'reply message'}
+                    />
                 </Modal>
             </div>
         );
@@ -57,6 +66,7 @@ export default function MessageList() {
         const arr = [];
         for (let i = 0; i < replyMessages.length; i++) {
             const item = <Typography.Text
+                key={i}
                 className={messageListStyles.replyMessages}
             >
                 {replyMessages[i]}
@@ -66,37 +76,74 @@ export default function MessageList() {
         return arr;
     }
 
+    function onEditMessage(messageObj) {
+        const newMessageObj = {...messageObj};
+        newMessageObj.messageText = messageText || newMessageObj.messageText;
+        updateMessage(newMessageObj)
+            .then(() => {
+                message.success('Message edited successfully');
+            })
+            .catch(() => {
+                message.error('Edit Failed');
+            });
+    }
+
+    function onDeleteMessage(messageId) {
+        setListChange(!listChange);
+        deleteMessage(messageId)
+            .then(() => {
+                message.success('Message deleted successfully');
+            })
+            .catch(() => {
+                message.error('Deletion Failed');
+            });
+    }
+
     function messageItem(messageObj) {
         return (
             <List.Item
+                key={messageObj._id}
                 className={messageListStyles.listItem}
             >
                 <Input.Group compact>
                     <Input
+                        onChange={(event) => {
+                            setMessageText(event.target.value);
+                        }}
                         placeholder={'message text'}
                         style={{width: '80%'}}
                         defaultValue={messageObj.messageText}
                     />
-                    <Button>
+                    <Button
+                        onClick={() => {
+                            onEditMessage(messageObj);
+                        }}>
                         <EditOutlined/>
                     </Button>
-                    <Button onClick={showReplyModal}>
+                    <Button onClick={() => {
+                        setCurrentMessageObj(messageObj);
+                        showReplyModal();
+                    }}>
                         <PlusCircleOutlined/>
                     </Button>
-                    <Button>
+                    <Button
+                        onClick={() => onDeleteMessage(messageObj._id)}
+                    >
                         <CloseCircleOutlined/>
                     </Button>
                 </Input.Group>
-                {replyMessageModal()}
                 {replyMessagesList(messageObj.replyMessages)}
             </List.Item>
         )
     }
 
     return (
-        <List
-            dataSource={data}
-            renderItem={item => messageItem(item)}
-        />
+        <div>
+            <List
+                dataSource={messageList}
+                renderItem={messageObj => messageItem(messageObj)}
+            />
+            {replyMessageModal()}
+        </div>
     );
 }

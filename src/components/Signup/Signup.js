@@ -1,7 +1,11 @@
 import React from "react";
+import {useLocation, useHistory} from 'react-router-dom';
 import signUpStyles from './Signup.module.scss';
 import {Form, Input, Button} from "antd";
 import {Link} from "react-router-dom";
+import {signUp} from "../../apis/apis";
+import {AuthObj} from "../../Auth/auth";
+
 
 const layout = {
     labelCol: {
@@ -19,9 +23,17 @@ const tailLayout = {
 };
 
 export default function SignUp() {
+    const history = useHistory();
+    const location = useLocation();
+    const {from} = location.state || {from: {pathname: "/guestBook"}};
 
     const onFinish = values => {
-        console.log('Success:', values);
+        const userObj = {...values};
+        signUp(userObj).then(() => {
+            AuthObj.authenticate(values.email, values.password, () => {
+                history.replace(from);
+            });
+        });
     };
 
     const onFinishFailed = errorInfo => {
@@ -78,7 +90,7 @@ export default function SignUp() {
 
                 <Form.Item
                     label="Email address"
-                    name="userEmail"
+                    name="email"
                     rules={[
                         {
                             required: true,

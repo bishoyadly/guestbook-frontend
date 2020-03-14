@@ -1,20 +1,29 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import bookFormStyles from './BookForm.module.scss';
 import {Input, Button, Modal} from "antd";
 import MessageList from "../MessageList/MessageList";
+import {useHistory} from 'react-router-dom';
+import {addMessage} from "../../apis/apis";
 
 
-export default function BookForm() {
+export default function BookForm({AuthObj}) {
 
+    const history = useHistory();
     const [addMessageModalVisibility, setAddMessageModalVisibility] = useState(false);
     const [addMessageModalLoading, setAddMessageModalLoading] = useState(false);
+    const [messageText, setMessageText] = useState('');
 
     function onAddMessageOK() {
         setAddMessageModalLoading(true);
-        setTimeout(() => {
-            setAddMessageModalLoading(false);
-            setAddMessageModalVisibility(false);
-        }, 2000);
+        addMessage(messageText)
+            .then(() => {
+                setAddMessageModalLoading(false);
+                setAddMessageModalVisibility(false);
+            })
+            .catch(() => {
+                setAddMessageModalLoading(false);
+                setAddMessageModalVisibility(false);
+            });
     }
 
     function showAddMessageModal() {
@@ -35,15 +44,32 @@ export default function BookForm() {
                     confirmLoading={addMessageModalLoading}
                     onCancel={handleAddMessageModalCancel}
                 >
-                    <Input placeholder={'message text'}/>
+                    <Input
+                        onChange={event => setMessageText(event.target.value)}
+                        placeholder={'message text'}/>
                 </Modal>
             </div>
         );
     }
 
+    function signOut() {
+        AuthObj.signout(() => history.push('/'));
+    }
+
     return (
         <div className={bookFormStyles.bookFormContainer}>
-            <h1> Guest Book Messages </h1>
+            <div className={bookFormStyles.headerTitle}>
+                <h1
+                > Guest Book Messages
+                </h1>
+                <Button
+                    onClick={signOut}
+                    className={bookFormStyles.signOutButton}
+                    type="danger"
+                >
+                    Sign out
+                </Button>
+            </div>
             <Button
                 onClick={showAddMessageModal}
                 className={bookFormStyles.addMessageButton}
@@ -51,7 +77,9 @@ export default function BookForm() {
             >
                 Add New Message
             </Button>
-            <MessageList/>
+            <MessageList
+                addMessageModalVisibility={addMessageModalVisibility}
+            />
             {addMessageModal()}
         </div>
     )

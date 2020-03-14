@@ -9,18 +9,7 @@ import {
 import SignUp from "./components/Signup/Signup";
 import BookForm from "./components/bookForm/BookForm";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
-
-const AuthObj = {
-    isAuthenticated: true,
-    authenticate(cb) {
-        AuthObj.isAuthenticated = true;
-        setTimeout(cb, 100);
-    },
-    signout(cb) {
-        AuthObj.isAuthenticated = false;
-        setTimeout(cb, 100);
-    }
-};
+import {AuthObj} from "./Auth/auth";
 
 function App() {
     return (
@@ -40,7 +29,7 @@ function App() {
                         AuthObj={AuthObj}
                         path='/guestBook'
                     >
-                        <BookForm/>
+                        <BookForm AuthObj={AuthObj}/>
                     </PrivateRoute>
                     <Route>
                         <h1 style={{

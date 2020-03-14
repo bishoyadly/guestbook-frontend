@@ -24,15 +24,10 @@ export default function Login({AuthObj}) {
     const location = useLocation();
     const {from} = location.state || {from: {pathname: "/guestBook"}};
 
-    const login = () => {
-        AuthObj.authenticate(() => {
+    const onFinish = values => {
+        AuthObj.authenticate(values.email, values.password, () => {
             history.replace(from);
         });
-    };
-
-    const onFinish = values => {
-        console.log('Success:', values);
-        login();
     };
 
     const onFinishFailed = errorInfo => {
@@ -55,7 +50,7 @@ export default function Login({AuthObj}) {
             >
                 <Form.Item
                     label="Email address"
-                    name="userEmail"
+                    name="email"
                     rules={[
                         {
                             required: true,

@@ -6,9 +6,25 @@
   padding: 30px;
 }
 
-.addMessageButton {
+.headerTitle {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  margin-left: 420px;
+}
+
+@mixin buttonStyle {
   height: 38px;
   font-size: 20px;
   border-radius: 50px;
   margin-bottom: 10px;
+}
+
+.signOutButton {
+  @include buttonStyle;
+  margin-left: 300px;
+}
+
+.addMessageButton {
+  @include buttonStyle;
 }
