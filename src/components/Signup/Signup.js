@@ -133,7 +133,7 @@ export default function SignUp() {
 
             <Link
                 className={signUpStyles.logInLink}
-                to={`/${process.env.REACT_APP_BaseURL}/login`}
+                to={`/login`}
             >
                 Login
             </Link>

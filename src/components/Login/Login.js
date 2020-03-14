@@ -94,7 +94,7 @@ export default function Login({AuthObj}) {
 
             <Link
                 className={loginStyles.signUpLink}
-                to={`/${process.env.REACT_APP_BaseURL}/signup`}
+                to={`/signup`}
             >
                 Sign up
             </Link>
