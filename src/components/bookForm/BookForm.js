@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import bookFormStyles from './BookForm.module.scss';
 import {Input, Button, Modal} from "antd";
 import MessageList from "../MessageList/MessageList";
@@ -53,7 +53,7 @@ export default function BookForm({AuthObj}) {
     }
 
     function signOut() {
-        AuthObj.signout(() => history.push(`/${baseURL}`));
+        AuthObj.signout(() => history.push(`/`));
     }
 
     return (

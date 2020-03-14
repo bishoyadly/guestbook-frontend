@@ -23,7 +23,7 @@ export default function Login({AuthObj}) {
 
     const history = useHistory();
     const location = useLocation();
-    const {from} = location.state || {from: {pathname: `${baseURL}/guestBook`}};
+    const {from} = location.state || {from: {pathname: `/guestBook`}};
 
     const onFinish = values => {
         AuthObj.authenticate(values.email, values.password, () => {

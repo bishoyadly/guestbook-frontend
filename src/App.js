@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
 import Login from "./components/Login/Login";
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {HashRouter as Router, Switch, Route} from "react-router-dom";
 import SignUp from "./components/Signup/Signup";
 import BookForm from "./components/bookForm/BookForm";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
@@ -14,20 +14,20 @@ function App() {
 
     return (
         <div className="App">
-            <Router>
+            <Router basename={baseURL}>
                 <Switch>
-                    <Route path={`/${baseURL}/login`}>
+                    <Route path={`/login`}>
                         <Login AuthObj={AuthObj}/>
                     </Route>
-                    <Route exact path={`/${baseURL}/`}>
+                    <Route exact path={`/`}>
                         <Login AuthObj={AuthObj}/>
                     </Route>
-                    <Route path={`/${baseURL}/signup`}>
+                    <Route path={`/signup`}>
                         <SignUp/>
                     </Route>
                     <PrivateRoute
                         AuthObj={AuthObj}
-                        path={`/${baseURL}/guestBook`}
+                        path={`/guestBook`}
                     >
                         <BookForm AuthObj={AuthObj}/>
                     </PrivateRoute>
