@@ -25,7 +25,7 @@ const tailLayout = {
 export default function SignUp() {
     const history = useHistory();
     const location = useLocation();
-    const {from} = location.state || {from: {pathname: `/${baseURL}/guestBook`}};
+    const {from} = location.state || {from: {pathname: `/guestBook`}};
 
     const onFinish = values => {
         const userObj = {...values};
