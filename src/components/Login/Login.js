@@ -3,6 +3,7 @@ import loginStyles from './Login.module.scss';
 import {Form, Input, Button} from "antd";
 import {Link, useHistory, useLocation} from "react-router-dom";
 
+const baseURL = process.env.REACT_APP_BaseURL;
 const layout = {
     labelCol: {
         span: 0,
@@ -22,7 +23,7 @@ export default function Login({AuthObj}) {
 
     const history = useHistory();
     const location = useLocation();
-    const {from} = location.state || {from: {pathname: "/guestBook"}};
+    const {from} = location.state || {from: {pathname: `${baseURL}/guestBook`}};
 
     const onFinish = values => {
         AuthObj.authenticate(values.email, values.password, () => {
@@ -93,7 +94,7 @@ export default function Login({AuthObj}) {
 
             <Link
                 className={loginStyles.signUpLink}
-                to={'/signup'}
+                to={`/${process.env.REACT_APP_BaseURL}/signup`}
             >
                 Sign up
             </Link>

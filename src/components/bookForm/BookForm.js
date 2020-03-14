@@ -5,7 +5,7 @@ import MessageList from "../MessageList/MessageList";
 import {useHistory} from 'react-router-dom';
 import {addMessage} from "../../apis/apis";
 
-
+const baseURL = process.env.REACT_APP_BaseURL;
 export default function BookForm({AuthObj}) {
 
     const history = useHistory();
@@ -53,7 +53,7 @@ export default function BookForm({AuthObj}) {
     }
 
     function signOut() {
-        AuthObj.signout(() => history.push('/'));
+        AuthObj.signout(() => history.push(`/${baseURL}`));
     }
 
     return (

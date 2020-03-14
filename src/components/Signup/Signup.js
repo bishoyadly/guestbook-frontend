@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import {signUp} from "../../apis/apis";
 import {AuthObj} from "../../Auth/auth";
 
-
+const baseURL = process.env.REACT_APP_BaseURL;
 const layout = {
     labelCol: {
         span: 4,
@@ -25,7 +25,7 @@ const tailLayout = {
 export default function SignUp() {
     const history = useHistory();
     const location = useLocation();
-    const {from} = location.state || {from: {pathname: "/guestBook"}};
+    const {from} = location.state || {from: {pathname: `/${baseURL}/guestBook`}};
 
     const onFinish = values => {
         const userObj = {...values};
@@ -133,7 +133,7 @@ export default function SignUp() {
 
             <Link
                 className={signUpStyles.logInLink}
-                to={'/login'}
+                to={`/${process.env.REACT_APP_BaseURL}/login`}
             >
                 Login
             </Link>
